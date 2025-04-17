@@ -267,8 +267,10 @@
         </div>
 
         <div id="downloadLinks" style="display: none;">
-            <a id="downloadPNG" class="download-btn">Download PNG</a>
-            <a id="downloadSVG" class="download-btn">Download SVG</a>
+            <!-- <a id="downloadPNG" class="download-btn">Download PNG</a>
+            <a id="downloadSVG" class="download-btn">Download SVG</a> -->
+            <a id="downloadPNG" class="download-btn" href="#" target="_blank" download="output.png">Download PNG</a>
+            <a id="downloadSVG"class="download-btn" href="#" target="_blank" download="output.svg">Download SVG</a>
         </div>
 
         <div id="notification" class="notification">
@@ -282,23 +284,6 @@
         const imageInput = document.getElementById('imageInput');
         const previewImage = document.getElementById('previewImage');
         const loading = document.querySelector('.loading');
-
-        // const urlParams = new URLSearchParams(window.location.search);
-        // const token = urlParams.get("token");
-
-        // fetch("/validate_token", {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({ token })
-        //     })
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         if (data.user) {
-        //         // Proceed as normal, assign data.user to session
-        //         } else {
-        //         // Show error: "Invalid or expired link"
-        //         }
-        //     });
 
         // Update parameter values in real-time
         document.querySelectorAll('input[type="range"]').forEach(input => {
@@ -342,8 +327,10 @@
                 // Show download links and set their hrefs
                 const links = document.getElementById('downloadLinks');
                 links.style.display = 'block';
-                document.getElementById('downloadPNG').href = data.pngUrl;
-                document.getElementById('downloadSVG').href = data.svgUrl;
+                // document.getElementById('downloadPNG').href = data.pngUrl;
+                // document.getElementById('downloadSVG').href = data.svgUrl;
+                document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
+                document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'error');
             } finally {

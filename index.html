@@ -283,22 +283,22 @@
         const previewImage = document.getElementById('previewImage');
         const loading = document.querySelector('.loading');
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get("token");
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const token = urlParams.get("token");
 
-        fetch("/validate_token", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.user) {
-                // Proceed as normal, assign data.user to session
-                } else {
-                // Show error: "Invalid or expired link"
-                }
-            });
+        // fetch("/validate_token", {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ token })
+        //     })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         if (data.user) {
+        //         // Proceed as normal, assign data.user to session
+        //         } else {
+        //         // Show error: "Invalid or expired link"
+        //         }
+        //     });
 
         // Update parameter values in real-time
         document.querySelectorAll('input[type="range"]').forEach(input => {

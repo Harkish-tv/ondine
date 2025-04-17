@@ -269,8 +269,7 @@
         <div id="downloadLinks" style="display: none;">
             <!-- <a id="downloadPNG" class="download-btn">Download PNG</a>
             <a id="downloadSVG" class="download-btn">Download SVG</a> -->
-<!--             <a id="downloadPNG" class="download-btn" href="#" target="_blank" download="output.png">Download PNG</a> -->
-            <a id="downloadPNG" class="download-btn" href="#" target="_blank">Download PNG</a>
+            <a id="downloadPNG" class="download-btn" href="#" target="_blank" download="output.png">Download PNG</a>
             <a id="downloadSVG"class="download-btn" href="#" target="_blank" download="output.svg">Download SVG</a>
         </div>
 
@@ -302,15 +301,6 @@
             updateTimeout = setTimeout(updatePreview, 500);
         }
 
-        function forceDownload(url, filename) {
-            const a = document.createElement('a');
-            a.href = url;
-            a.setAttribute('download', filename);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-}
-
         async function updatePreview() {
             if (!imageInput.files[0]) return;
             const formData = new FormData();
@@ -337,19 +327,10 @@
                 // Show download links and set their hrefs
                 const links = document.getElementById('downloadLinks');
                 links.style.display = 'block';
-                // document.getElementById('downloadPNG').href = data.pngUrl;
-                // // document.getElementById('downloadSVG').href = data.svgUrl;
+                document.getElementById('downloadPNG').href = data.pngUrl;
+                document.getElementById('downloadSVG').href = data.svgUrl;
                 // document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
                 // document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
-                document.getElementById('downloadPNG').addEventListener('click', e => {
-                    e.preventDefault();
-                    forceDownload(data.pngUrl + `?t=${Date.now()}`, 'output.png');
-                });
-    
-                document.getElementById('downloadSVG').addEventListener('click', e => {
-                    e.preventDefault();
-                    forceDownload(data.svgUrl + `?t=${Date.now()}`, 'output.svg');
-                });
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'error');
             } finally {
@@ -388,8 +369,8 @@
             .then(data => {
                 // Update the preview image and download links
                 document.getElementById('previewImage').src = data.previewUrl;
-                document.getElementById('downloadPNG').href = data.downloadPngUrl;
-                document.getElementById('downloadSVG').href = data.downloadSvgUrl;
+                document.getElementById('downloadPNG').href = data.pngUrl;
+                document.getElementById('downloadSVG').href = data.SvgUrl;
             })
             .catch(err => {
                 console.error('Upload failed:', err);

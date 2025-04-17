@@ -301,6 +301,15 @@
             updateTimeout = setTimeout(updatePreview, 500);
         }
 
+        function forceDownload(url, filename) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.setAttribute('download', filename);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+}
+
         async function updatePreview() {
             if (!imageInput.files[0]) return;
             const formData = new FormData();
@@ -328,9 +337,18 @@
                 const links = document.getElementById('downloadLinks');
                 links.style.display = 'block';
                 // document.getElementById('downloadPNG').href = data.pngUrl;
-                // document.getElementById('downloadSVG').href = data.svgUrl;
-                document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
-                document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
+                // // document.getElementById('downloadSVG').href = data.svgUrl;
+                // document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
+                // document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
+                document.getElementById('downloadPNG').addEventListener('click', e => {
+                    e.preventDefault();
+                    forceDownload(data.pngUrl + `?t=${Date.now()}`, 'output.png');
+                });
+    
+                document.getElementById('downloadSVG').addEventListener('click', e => {
+                    e.preventDefault();
+                    forceDownload(data.svgUrl + `?t=${Date.now()}`, 'output.svg');
+                });
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'error');
             } finally {

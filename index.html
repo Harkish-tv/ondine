@@ -269,8 +269,6 @@
         <div id="downloadLinks" style="display: none;">
             <a id="downloadPNG" class="download-btn">Download PNG</a>
             <a id="downloadSVG" class="download-btn">Download SVG</a>
-            <!-- <a id="downloadPNG" class="download-btn" href="#" onclick="downloadFile(event, 'png')">Download PNG</a>
-            <a id="downloadSVG" class="download-btn" href="#" onclick="downloadFile(event, 'svg')">Download SVG</a> -->
         </div>
 
         <div id="notification" class="notification">
@@ -327,10 +325,6 @@
                 // Show download links and set their hrefs
                 const links = document.getElementById('downloadLinks');
                 links.style.display = 'block';
-                // document.getElementById('downloadPNG').dataset.url = data.pngUrl;
-                // document.getElementById('downloadSVG').dataset.url = data.svgUrl;
-                // document.getElementById('downloadPNG').href = data.pngUrl;
-                // document.getElementById('downloadSVG').href = data.svgUrl;
                 document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
                 document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
             } catch (error) {

@@ -267,10 +267,10 @@
         </div>
 
         <div id="downloadLinks" style="display: none;">
-            <!-- <a id="downloadPNG" class="download-btn">Download PNG</a>
-            <a id="downloadSVG" class="download-btn">Download SVG</a> -->
-            <a id="downloadPNG" class="download-btn" href="#" onclick="downloadFile(event, 'png')">Download PNG</a>
-            <a id="downloadSVG" class="download-btn" href="#" onclick="downloadFile(event, 'svg')">Download SVG</a>
+            <a id="downloadPNG" class="download-btn">Download PNG</a>
+            <a id="downloadSVG" class="download-btn">Download SVG</a>
+            <!-- <a id="downloadPNG" class="download-btn" href="#" onclick="downloadFile(event, 'png')">Download PNG</a>
+            <a id="downloadSVG" class="download-btn" href="#" onclick="downloadFile(event, 'svg')">Download SVG</a> -->
         </div>
 
         <div id="notification" class="notification">
@@ -301,30 +301,6 @@
             updateTimeout = setTimeout(updatePreview, 500);
         }
 
-        async function downloadFile(event, format) {
-            event.preventDefault();
-            const url = document.getElementById(`download${format.toUpperCase()}`).dataset.url;
-            if (!url) return;
-
-            try {
-                const response = await fetch(url, {
-                    mode: 'cors',
-                    credentials: 'same-origin' // Include if using cookies
-                });
-                const blob = await response.blob();
-                const blobUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `artwork.${format}`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(blobUrl);
-                document.body.removeChild(a);
-            } catch (error) {
-                showNotification(`Download failed: ${error.message}`, 'error');
-            }
-        }
-
         async function updatePreview() {
             if (!imageInput.files[0]) return;
             const formData = new FormData();
@@ -351,12 +327,12 @@
                 // Show download links and set their hrefs
                 const links = document.getElementById('downloadLinks');
                 links.style.display = 'block';
-                document.getElementById('downloadPNG').dataset.url = data.pngUrl;
-                document.getElementById('downloadSVG').dataset.url = data.svgUrl;
+                // document.getElementById('downloadPNG').dataset.url = data.pngUrl;
+                // document.getElementById('downloadSVG').dataset.url = data.svgUrl;
                 // document.getElementById('downloadPNG').href = data.pngUrl;
                 // document.getElementById('downloadSVG').href = data.svgUrl;
-                // document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
-                // document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
+                document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
+                document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'error');
             } finally {

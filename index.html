@@ -267,8 +267,6 @@
         </div>
 
         <div id="downloadLinks" style="display: none;">
-            <!-- <a id="downloadPNG" class="download-btn">Download PNG</a>
-            <a id="downloadSVG" class="download-btn">Download SVG</a> -->
             <a id="downloadPNG" class="download-btn" href="#" onclick="downloadFile(event, 'png')">Download PNG</a>
             <a id="downloadSVG" class="download-btn" href="#" onclick="downloadFile(event, 'svg')">Download SVG</a>
         </div>
@@ -303,27 +301,18 @@
 
         async function downloadFile(event, format) {
             event.preventDefault();
-            const url = document.getElementById(`download${format.toUpperCase()}`).dataset.url;
-            if (!url) return;
-
-            try {
-                const response = await fetch(url, {
-                    mode: 'cors',
-                    credentials: 'same-origin' // Include if using cookies
-                });
-                const blob = await response.blob();
-                const blobUrl = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                a.download = `artwork.${format}`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(blobUrl);
-                document.body.removeChild(a);
-            } catch (error) {
-                showNotification(`Download failed: ${error.message}`, 'error');
-            }
-        }
+            const link = document.getElementById(`download${format.toUpperCase()}`);
+            const url = link.dataset.url;
+            
+            // Create temporary anchor to trigger download
+            const tempLink = document.createElement('a');
+            tempLink.href = url;
+            tempLink.download = `artwork.${format}`;
+            tempLink.target = '_blank';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+}
 
         async function updatePreview() {
             if (!imageInput.files[0]) return;
@@ -348,19 +337,21 @@
                 previewImage.src = data.previewUrl + `?${Date.now()}`;
                 previewImage.style.display = 'block';
 
-                // Show download links and set their hrefs
+                // Show download links and set their URLs with timestamps
                 const links = document.getElementById('downloadLinks');
                 links.style.display = 'block';
-                // document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
-                // document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
-                document.getElementById('downloadPNG').dataset.url = data.pngUrl;
-                document.getElementById('downloadSVG').dataset.url = data.svgUrl;
+                
+                // Add these lines to set the download URLs with timestamps
+                const timestamp = Date.now();
+                document.getElementById('downloadPNG').dataset.url = `${data.pngUrl}?t=${timestamp}`;
+                document.getElementById('downloadSVG').dataset.url = `${data.svgUrl}?t=${timestamp}`;
+
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'error');
             } finally {
                 loading.style.display = 'none';
             }
-        }
+        }       
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();

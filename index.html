@@ -342,8 +342,8 @@
             const links = document.getElementById('downloadLinks');
             links.style.display = 'block';
 
-            document.getElementById('downloadPNG').href.url = data.pngUrl + `?t=${Date.now()}`;
-            document.getElementById('downloadSVG').href.url = data.svgUrl + `?t=${Date.now()}`;
+            document.getElementById('downloadPNG').href = data.pngUrl + `?t=${Date.now()}`;
+            document.getElementById('downloadSVG').href = data.svgUrl + `?t=${Date.now()}`;
             } catch (error) {
             alert(`Error: ${error.message}`);
             } finally {

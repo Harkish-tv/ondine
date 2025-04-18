@@ -301,18 +301,19 @@
 
         async function downloadFile(event, format) {
             event.preventDefault();
-            const link = document.getElementById(`download${format.toUpperCase()}`);
-            const url = link.dataset.url;
+            const url = document.getElementById(`download${format.toUpperCase()}`).dataset.url;
             
-            // Create temporary anchor to trigger download
-            const tempLink = document.createElement('a');
-            tempLink.href = url;
-            tempLink.download = `artwork.${format}`;
-            tempLink.target = '_blank';
-            document.body.appendChild(tempLink);
-            tempLink.click();
-            document.body.removeChild(tempLink);
-}
+            // Create hidden iframe to trigger download
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+            document.body.appendChild(iframe);
+            
+            // Cleanup after download
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+            }, 5000);
+        }
 
         async function updatePreview() {
             if (!imageInput.files[0]) return;
@@ -342,9 +343,11 @@
                 links.style.display = 'block';
                 
                 // Add these lines to set the download URLs with timestamps
-                const timestamp = Date.now();
-                document.getElementById('downloadPNG').dataset.url = `${data.pngUrl}?t=${timestamp}`;
-                document.getElementById('downloadSVG').dataset.url = `${data.svgUrl}?t=${timestamp}`;
+                // const timestamp = Date.now();
+                // document.getElementById('downloadPNG').dataset.url = `${data.pngUrl}?t=${timestamp}`;
+                // document.getElementById('downloadSVG').dataset.url = `${data.svgUrl}?t=${timestamp}`;
+                document.getElementById('downloadPNG').dataset.url = `${data.pngUrl}?force_download=1`;
+                document.getElementById('downloadSVG').dataset.url = `${data.svgUrl}?force_download=1`;
 
             } catch (error) {
                 showNotification(`Error: ${error.message}`, 'error');
